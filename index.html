@@ -4,189 +4,427 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JARVIS AI</title>
+<title>JARVIS | Command Center</title>
 
 <style>
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
   background: #050b16;
-  color: #d9efff;
+  color: #d9f5ff;
   font-family: Arial, sans-serif;
   min-height: 100vh;
+  padding: 15px;
 }
 
 header {
-  padding: 22px;
-  text-align: center;
-  border-bottom: 1px solid #123b5c;
-}
-
-header h1 {
-  color: #43c9ff;
-  letter-spacing: 5px;
-  margin: 0;
-}
-
-header p {
-  color: #799db7;
-  font-size: 12px;
-}
-
-main {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-}
-
-.core {
-  width: 175px;
-  height: 175px;
-  margin: 35px auto;
-  border: 2px solid #28bfff;
-  border-radius: 50%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 30px #087bbd,
-              inset 0 0 30px #087bbd;
-  animation: glow 2s infinite alternate;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid #123d58;
+  padding: 15px 5px;
 }
 
-.core span {
-  font-size: 45px;
-  color: #55d8ff;
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 15px #087bbd; }
-  to { box-shadow: 0 0 40px #087bbd; }
+.logo {
+  color: #20cfff;
+  font-size: 27px;
+  font-weight: bold;
+  letter-spacing: 4px;
 }
 
 .status {
+  color: #36e6a0;
+  font-size: 12px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.panel {
+  background: #0b1728;
+  border: 1px solid #16466a;
+  border-radius: 13px;
+  padding: 18px;
+  box-shadow: 0 0 15px #0077aa18;
+}
+
+.panel h2 {
+  font-size: 15px;
+  color: #29cfff;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+.core-panel {
   text-align: center;
-  color: #54d7ff;
-  margin-bottom: 25px;
+  grid-column: 1 / -1;
+}
+
+.core {
+  width: 145px;
+  height: 145px;
+  border: 3px solid #16baff;
+  border-radius: 50%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #40dfff;
+  font-size: 30px;
+  box-shadow: 0 0 25px #00bfff66,
+              inset 0 0 25px #00bfff44;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.clock {
+  font-size: 28px;
+  color: #37d7ff;
+}
+
+.small {
+  color: #91a9bc;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+button {
+  background: #087eae;
+  border: 1px solid #29cfff;
+  color: white;
+  padding: 11px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background: #0ba5d9;
+}
+
+input, textarea {
+  width: 100%;
+  background: #07111e;
+  color: white;
+  border: 1px solid #176087;
+  padding: 12px;
+  border-radius: 7px;
+  outline: none;
+  margin-top: 8px;
+  font-family: Arial, sans-serif;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 75px;
 }
 
 .chat {
-  height: 250px;
+  height: 220px;
   overflow-y: auto;
-  border: 1px solid #17466a;
-  border-radius: 12px;
-  padding: 12px;
-  background: #091525;
-  margin-bottom: 12px;
+  background: #060e19;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .message {
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 9px;
-  background: #102b43;
+  padding: 9px;
+  margin: 7px 0;
+  border-radius: 7px;
+  font-size: 13px;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .user {
-  background: #12486b;
+  background: #103c58;
   text-align: right;
 }
 
-.controls {
-  display: flex;
-  gap: 8px;
+.jarvis {
+  background: #112b29;
+  color: #a8ffdf;
 }
 
-input {
-  flex: 1;
-  min-width: 0;
-  padding: 14px;
-  border-radius: 9px;
-  border: 1px solid #1684b9;
-  background: #0c1c2d;
-  color: white;
-  font-size: 15px;
+.app-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-button {
-  border: none;
+.app-card {
+  background: #071321;
+  border: 1px solid #194665;
   border-radius: 9px;
-  background: #087db6;
-  color: white;
   padding: 13px;
-  font-weight: bold;
 }
 
-button:disabled {
-  opacity: 0.5;
+.app-card h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.mic {
-  display: block;
-  margin: 12px auto;
-  border-radius: 50%;
-  width: 58px;
-  height: 58px;
+.count {
   font-size: 23px;
+  color: #32d5ff;
+  margin: 5px 0;
 }
 
-footer {
+.app-status {
+  font-size: 11px;
+  color: #e9b85c;
+}
+
+.reply-area {
+  margin-top: 12px;
+}
+
+.footer {
   text-align: center;
-  padding: 20px;
-  color: #64849d;
-  font-size: 12px;
+  color: #59768e;
+  font-size: 11px;
+  padding: 25px 5px;
+}
+
+.wave {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  height: 35px;
+}
+
+.wave span {
+  display: block;
+  width: 4px;
+  height: 9px;
+  background: #21cfff;
+  border-radius: 5px;
+}
+
+.wave.active span {
+  animation: wave .6s infinite alternate;
+}
+
+.wave span:nth-child(2n) { animation-delay: .2s; }
+.wave span:nth-child(3n) { animation-delay: .4s; }
+
+@keyframes wave {
+  to { height: 30px; }
+}
+
+@media(max-width:650px) {
+  .grid { grid-template-columns: 1fr; }
+  .core-panel { grid-column: auto; }
+  .app-list { grid-template-columns: 1fr 1fr; }
+  header { align-items: flex-start; }
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
 <header>
-  <h1>J.A.R.V.I.S.</h1>
-  <p>JUST A RATHER VERY INTELLIGENT SYSTEM</p>
+  <div>
+    <div class="logo">J.A.R.V.I.S.</div>
+    <div class="small">PERSONAL AI COMMAND CENTER</div>
+  </div>
+  <div class="status" id="headerStatus">● SYSTEM ONLINE</div>
 </header>
 
-<main>
+<div class="grid">
 
-  <div class="core">
-    <span>J</span>
-  </div>
-
-  <div class="status" id="status">
-    SYSTEM ONLINE
-  </div>
-
-  <div class="chat" id="chat">
-    <div class="message">
-      JARVIS: Good day, Sir. Systems initialized.
-      How may I assist you?
+  <!-- AI CORE -->
+  <section class="panel core-panel">
+    <h2>ARTIFICIAL INTELLIGENCE CORE</h2>
+    <div class="core">J</div>
+    <div id="coreStatus">JARVIS READY</div>
+    <div class="wave" id="wave">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
     </div>
-  </div>
+  </section>
 
-  <div class="controls">
-    <input id="input"
-      placeholder="Ask JARVIS something..."
-      onkeydown="if(event.key==='Enter') sendMessage()">
+  <!-- CLOCK -->
+  <section class="panel">
+    <h2>LOCAL SYSTEM TIME</h2>
+    <div class="clock" id="clock">--:--:--</div>
+    <div class="small" id="date">Loading date...</div>
+  </section>
 
-    <button id="sendBtn" onclick="sendMessage()">SEND</button>
-  </div>
+  <!-- WEATHER -->
+  <section class="panel">
+    <h2>WEATHER SYSTEM</h2>
+    <div id="weather">Weather not loaded</div>
+    <button onclick="loadWeather()" id="weatherBtn">
+      CHECK WEATHER
+    </button>
+  </section>
 
-  <button class="mic" onclick="listen()">🎙️</button>
+  <!-- NOTIFICATIONS -->
+  <section class="panel" style="grid-column:1/-1">
+    <h2>SMART NOTIFICATION CENTER</h2>
+    <div class="small">
+      Notification connection: Android companion not connected
+    </div>
 
-  <footer>
-    JARVIS AI V1.0 | PERSONAL AI PROJECT
-  </footer>
+    <div class="app-list" style="margin-top:15px">
 
-</main>
+      <div class="app-card">
+        <h3>GMAIL</h3>
+        <div class="count" id="gmailCount">--</div>
+        <div class="app-status">Waiting for Android connection</div>
+        <button onclick="openApp('gmail')">OPEN GMAIL</button>
+      </div>
+
+      <div class="app-card">
+        <h3>WHATSAPP</h3>
+        <div class="count" id="whatsappCount">--</div>
+        <div class="app-status">Waiting for Android connection</div>
+        <button onclick="openApp('whatsapp')">OPEN WHATSAPP</button>
+      </div>
+
+      <div class="app-card">
+        <h3>INSTAGRAM</h3>
+        <div class="count" id="instagramCount">--</div>
+        <div class="app-status">Waiting for Android connection</div>
+        <button onclick="openApp('instagram')">OPEN INSTAGRAM</button>
+      </div>
+
+      <div class="app-card">
+        <h3>SNAPCHAT</h3>
+        <div class="count" id="snapchatCount">--</div>
+        <div class="app-status">Waiting for Android connection</div>
+        <button onclick="openApp('snapchat')">OPEN SNAPCHAT</button>
+      </div>
+
+    </div>
+
+    <div class="reply-area">
+      <h2 style="margin-top:20px">MESSAGE ACTIVITY</h2>
+      <div class="chat" id="notificationChat">
+        <div class="message jarvis">
+          JARVIS: Notification system is ready for Android companion connection.
+          Real notification data will appear here after connection.
+        </div>
+      </div>
+
+      <button onclick="checkNotifications()">
+        CHECK MY MESSAGES
+      </button>
+    </div>
+
+    <div class="reply-area">
+      <h2>ASSISTED REPLY</h2>
+      <div class="small">
+        Prepare a reply here. Sending will be enabled after the Android
+        companion and supported app reply actions are connected.
+      </div>
+
+      <input id="replyRecipient"
+        placeholder="Recipient / conversation">
+
+      <textarea id="replyText"
+        placeholder="Write your reply..."></textarea>
+
+      <button onclick="prepareReply()">PREPARE REPLY</button>
+      <button onclick="approveReply()">APPROVE REPLY</button>
+
+      <div class="small" id="replyStatus">
+        No reply prepared.
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAT -->
+  <section class="panel" style="grid-column:1/-1">
+    <h2>JARVIS INTELLIGENT CHAT</h2>
+
+    <div class="chat" id="chat">
+      <div class="message jarvis">
+        Hello Sir. JARVIS AI system is online. How may I assist you?
+      </div>
+    </div>
+
+    <input id="input" placeholder="Ask JARVIS anything...">
+
+    <button onclick="sendMessage()" id="sendBtn">SEND</button>
+    <button onclick="listen()" id="micButton">🎤 SPEAK</button>
+  </section>
+
+  <!-- SYSTEM MONITOR -->
+  <section class="panel" style="grid-column:1/-1">
+    <h2>SYSTEM MONITOR</h2>
+    <p class="small">AI BACKEND: <span id="backendStatus">READY</span></p>
+    <p class="small">VOICE ENGINE: <span id="voiceStatus">READY</span></p>
+    <p class="small">MICROPHONE: <span id="micStatus">STANDBY</span></p>
+    <p class="small">ANDROID COMPANION: <span id="companionStatus">NOT CONNECTED</span></p>
+  </section>
+
+</div>
+
+<div class="footer">
+  JARVIS PERSONAL AI | COMMAND CENTER V3.0
+</div>
+
+</div>
 
 <script>
+const API_URL =
+"https://jarvis-ai-backend.aarushchaurasiya10.workers.dev/";
+
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
-const statusText = document.getElementById("status");
 const sendBtn = document.getElementById("sendBtn");
+
+let preparedReply = null;
+
+function updateClock() {
+  const now = new Date();
+
+  document.getElementById("clock").textContent =
+    now.toLocaleTimeString("en-IN");
+
+  document.getElementById("date").textContent =
+    now.toLocaleDateString("en-IN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
 
 function addMessage(text, type) {
   const div = document.createElement("div");
@@ -194,6 +432,16 @@ function addMessage(text, type) {
   div.textContent = text;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
+}
+
+function addNotification(text) {
+  const div = document.createElement("div");
+  div.className = "message jarvis";
+  div.textContent = text;
+
+  const box = document.getElementById("notificationChat");
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
 }
 
 function speak(text) {
@@ -204,7 +452,20 @@ function speak(text) {
   const speech = new SpeechSynthesisUtterance(text);
   speech.lang = "en-IN";
   speech.rate = 0.95;
-  speech.pitch = 0.85;
+  speech.pitch = 0.9;
+
+  document.getElementById("voiceStatus").textContent = "SPEAKING";
+  document.getElementById("wave").classList.add("active");
+
+  speech.onend = () => {
+    document.getElementById("voiceStatus").textContent = "READY";
+    document.getElementById("wave").classList.remove("active");
+  };
+
+  speech.onerror = () => {
+    document.getElementById("voiceStatus").textContent = "READY";
+    document.getElementById("wave").classList.remove("active");
+  };
 
   speechSynthesis.speak(speech);
 }
@@ -214,89 +475,240 @@ async function sendMessage() {
 
   if (!question || sendBtn.disabled) return;
 
-  addMessage("YOU: " + question, "user");
-
+  addMessage(question, "user");
   input.value = "";
+
   sendBtn.disabled = true;
-  statusText.textContent = "CONNECTING TO AI...";
+  document.getElementById("coreStatus").textContent = "PROCESSING";
+  document.getElementById("backendStatus").textContent = "CONNECTING";
 
   try {
-    const response = await fetch(
-      "https://jarvis-ai-backend.aarushchaurasiya10.workers.dev/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: question
-        })
-      }
-    );
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: question
+      })
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || "AI request failed");
+      throw new Error(data.error || "Backend error");
     }
 
-    const answer = data.reply || "No response received.";
+    const answer = data.reply || "I could not understand that.";
 
-    addMessage("JARVIS: " + answer, "bot");
+    addMessage(answer, "jarvis");
     speak(answer);
 
-    statusText.textContent = "SYSTEM ONLINE";
+    document.getElementById("backendStatus").textContent = "ONLINE";
 
   } catch (error) {
-    console.error("JARVIS ERROR:", error);
-
     addMessage(
-      "JARVIS: I cannot connect to my AI brain right now. Please try again.",
-      "bot"
+      "Connection error: " + error.message,
+      "jarvis"
     );
 
-    statusText.textContent = "CONNECTION ERROR";
+    document.getElementById("backendStatus").textContent = "ERROR";
 
   } finally {
     sendBtn.disabled = false;
+    document.getElementById("coreStatus").textContent = "JARVIS READY";
   }
 }
 
+input.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") sendMessage();
+});
+
 function listen() {
-  const SpeechRecognition =
+  const Recognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-  if (!SpeechRecognition) {
-    alert("Voice recognition is not supported in this browser.");
+  if (!Recognition) {
+    alert("Speech recognition is not supported in this browser.");
     return;
   }
 
-  const recognition = new SpeechRecognition();
+  const recognition = new Recognition();
 
   recognition.lang = "en-IN";
   recognition.interimResults = false;
 
-  recognition.onstart = () => {
-    statusText.textContent = "LISTENING...";
-  };
+  document.getElementById("micStatus").textContent = "LISTENING";
+  document.getElementById("coreStatus").textContent = "LISTENING";
+  document.getElementById("wave").classList.add("active");
 
-  recognition.onresult = (event) => {
-    input.value = event.results[0][0].transcript;
+  recognition.onresult = function(event) {
+    const transcript =
+      event.results[0][0].transcript.trim();
+
+    const command = transcript.toLowerCase();
+
+    if (
+      command.includes("check my messages") ||
+      command.includes("any messages") ||
+      command.includes("kisi ke message")
+    ) {
+      checkNotifications();
+      return;
+    }
+
+    if (command.includes("open whatsapp")) {
+      openApp("whatsapp");
+      return;
+    }
+
+    if (command.includes("open instagram")) {
+      openApp("instagram");
+      return;
+    }
+
+    if (command.includes("open snapchat")) {
+      openApp("snapchat");
+      return;
+    }
+
+    if (command.includes("open gmail")) {
+      openApp("gmail");
+      return;
+    }
+
+    input.value = transcript;
     sendMessage();
   };
 
-  recognition.onerror = () => {
-    statusText.textContent = "VOICE ERROR";
+  recognition.onerror = function() {
+    document.getElementById("micStatus").textContent = "VOICE ERROR";
   };
 
-  recognition.onend = () => {
-    if (statusText.textContent === "LISTENING...") {
-      statusText.textContent = "SYSTEM ONLINE";
-    }
+  recognition.onend = function() {
+    document.getElementById("micStatus").textContent = "STANDBY";
+    document.getElementById("coreStatus").textContent = "JARVIS READY";
+    document.getElementById("wave").classList.remove("active");
   };
 
   recognition.start();
+}
+
+function checkNotifications() {
+  const message =
+    "Sir, the Android notification companion is not connected yet. " +
+    "I can check Gmail, WhatsApp, Instagram and Snapchat after setup.";
+
+  addNotification(message);
+  speak(message);
+}
+
+function openApp(app) {
+  const links = {
+    gmail: "https://mail.google.com/",
+    whatsapp: "https://wa.me/",
+    instagram: "https://www.instagram.com/",
+    snapchat: "https://web.snapchat.com/"
+  };
+
+  if (links[app]) {
+    window.open(links[app], "_blank");
+  }
+}
+
+function prepareReply() {
+  const recipient =
+    document.getElementById("replyRecipient").value.trim();
+
+  const reply =
+    document.getElementById("replyText").value.trim();
+
+  if (!recipient || !reply) {
+    document.getElementById("replyStatus").textContent =
+      "Enter a recipient and reply first.";
+    return;
+  }
+
+  preparedReply = {
+    recipient: recipient,
+    text: reply
+  };
+
+  document.getElementById("replyStatus").textContent =
+    "Reply prepared for " + recipient +
+    ". Review it before approval.";
+}
+
+function approveReply() {
+  if (!preparedReply) {
+    document.getElementById("replyStatus").textContent =
+      "Prepare a reply first.";
+    return;
+  }
+
+  document.getElementById("replyStatus").textContent =
+    "Reply approved locally, but not sent. Android companion connection is required to send it.";
+
+  addNotification(
+    "Reply approved for " + preparedReply.recipient +
+    ". It has NOT been sent."
+  );
+
+  preparedReply = null;
+}
+
+async function loadWeather() {
+  const button = document.getElementById("weatherBtn");
+  const output = document.getElementById("weather");
+
+  if (!navigator.geolocation) {
+    output.textContent = "Location is not supported.";
+    return;
+  }
+
+  button.disabled = true;
+  output.textContent = "Getting your location...";
+
+  navigator.geolocation.getCurrentPosition(
+    async position => {
+      try {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const url =
+          "https://api.open-meteo.com/v1/forecast" +
+          "?latitude=" + lat +
+          "&longitude=" + lon +
+          "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m";
+
+        const response = await fetch(url);
+        const data = await response.json();
+        const weather = data.current;
+
+        output.innerHTML =
+          "<div class='clock'>" +
+          weather.temperature_2m + "°C</div>" +
+          "<div class='small'>Feels like: " +
+          weather.apparent_temperature + "°C</div>" +
+          "<div class='small'>Humidity: " +
+          weather.relative_humidity_2m + "%</div>" +
+          "<div class='small'>Wind: " +
+          weather.wind_speed_10m + " km/h</div>";
+
+      } catch (error) {
+        output.textContent = "Weather could not be loaded.";
+      } finally {
+        button.disabled = false;
+      }
+    },
+
+    error => {
+      output.textContent =
+        "Location permission denied or unavailable.";
+      button.disabled = false;
+    }
+  );
 }
 </script>
 
