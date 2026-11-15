@@ -120,6 +120,10 @@ button {
   font-weight: bold;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
 .mic {
   display: block;
   margin: 12px auto;
@@ -166,7 +170,8 @@ footer {
     <input id="input"
       placeholder="Ask JARVIS something..."
       onkeydown="if(event.key==='Enter') sendMessage()">
-    <button onclick="sendMessage()">SEND</button>
+
+    <button id="sendBtn" onclick="sendMessage()">SEND</button>
   </div>
 
   <button class="mic" onclick="listen()">🎙️</button>
@@ -181,6 +186,7 @@ footer {
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
 const statusText = document.getElementById("status");
+const sendBtn = document.getElementById("sendBtn");
 
 function addMessage(text, type) {
   const div = document.createElement("div");
@@ -203,56 +209,16 @@ function speak(text) {
   speechSynthesis.speak(speech);
 }
 
-function think(question) {
-  const q = question.toLowerCase();
-
-  if (q.includes("hello") || q.includes("hi jarvis")) {
-    return "Hello Sir. JARVIS is ready.";
-  }
-
-  if (q.includes("your name")) {
-    return "I am JARVIS, your personal AI assistant.";
-  }
-
-  if (q.includes("time")) {
-    return "The current time is " +
-      new Date().toLocaleTimeString();
-  }
-
-  if (q.includes("date")) {
-    return "Today's date is " +
-      new Date().toLocaleDateString();
-  }
-
-  if (q.includes("who are you")) {
-    return "I am your personal assistant, Sir.";
-  }
-
-  if (q.includes("how are you")) {
-    return "All systems are functioning normally, Sir.";
-  }
-
-  if (q.includes("open google")) {
-    window.open("https://google.com", "_blank");
-    return "Opening Google, Sir.";
-  }
-
-  if (q.includes("open youtube")) {
-    window.open("https://youtube.com", "_blank");
-    return "Opening YouTube, Sir.";
-  }
-
-  return "I have received your command, Sir. My advanced AI brain is not connected yet.";
-}
-
 async function sendMessage() {
   const question = input.value.trim();
 
-  if (!question) return;
+  if (!question || sendBtn.disabled) return;
 
   addMessage("YOU: " + question, "user");
+
   input.value = "";
-  statusText.textContent = "THINKING...";
+  sendBtn.disabled = true;
+  statusText.textContent = "CONNECTING TO AI...";
 
   try {
     const response = await fetch(
@@ -282,16 +248,21 @@ async function sendMessage() {
     statusText.textContent = "SYSTEM ONLINE";
 
   } catch (error) {
+    console.error("JARVIS ERROR:", error);
+
     addMessage(
-      "JARVIS: Sorry, I couldn't connect to my AI brain. Please try again.",
+      "JARVIS: I cannot connect to my AI brain right now. Please try again.",
       "bot"
     );
 
     statusText.textContent = "CONNECTION ERROR";
-    console.error(error);
+
+  } finally {
+    sendBtn.disabled = false;
   }
-}   
- function listen() {
+}
+
+function listen() {
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
@@ -331,4 +302,3 @@ async function sendMessage() {
 
 </body>
 </html>
-
