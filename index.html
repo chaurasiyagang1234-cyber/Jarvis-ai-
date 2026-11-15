@@ -245,26 +245,53 @@ function think(question) {
   return "I have received your command, Sir. My advanced AI brain is not connected yet.";
 }
 
-function sendMessage() {
+async function sendMessage() {
   const question = input.value.trim();
 
   if (!question) return;
 
   addMessage("YOU: " + question, "user");
   input.value = "";
+  statusText.textContent = "THINKING...";
 
-  statusText.textContent = "PROCESSING...";
+  try {
+    const response = await fetch(
+      "https://jarvis-ai-backend.aarushchaurasiya10.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: question
+        })
+      }
+    );
 
-  const answer = think(question);
+    const data = await response.json();
 
-  setTimeout(() => {
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    const answer = data.reply || "No response received.";
+
     addMessage("JARVIS: " + answer, "bot");
     speak(answer);
-    statusText.textContent = "SYSTEM ONLINE";
-  }, 500);
-}
 
-function listen() {
+    statusText.textContent = "SYSTEM ONLINE";
+
+  } catch (error) {
+    addMessage(
+      "JARVIS: Sorry, I couldn't connect to my AI brain. Please try again.",
+      "bot"
+    );
+
+    statusText.textContent = "CONNECTION ERROR";
+    console.error(error);
+  }
+}   
+ function listen() {
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
